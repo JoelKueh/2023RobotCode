@@ -6,9 +6,17 @@
 
 #include <frc/Drive/MecanumDrive.h>
 #include <rev/CANSparkMax.h>
+#include "WiringDiagram.h"
 
 class Drive {
  public:
   Drive();
+  void MecanumDrive(double drivePower, double strafePower, double turnPower);
 
+  rev::CANSparkMax frontLeftMotor { WiringDiagram::frontLeftID, rev::CANSparkMax::MotorType::kBrushless };
+  rev::CANSparkMax frontRightMotor { WiringDiagram::frontRightID, rev::CANSparkMax::MotorType::kBrushless };
+  rev::CANSparkMax backLeftMotor { WiringDiagram::backLeftID, rev::CANSparkMax::MotorType::kBrushless };
+  rev::CANSparkMax backRightMotor { WiringDiagram::backRightID, rev::CANSparkMax::MotorType::kBrushless };
+  frc::MecanumDrive *myMecanumDrive;
+  
 };

@@ -12,6 +12,8 @@ void Robot::RobotInit() {
   m_chooser.SetDefaultOption(kAutoNameDefault, kAutoNameDefault);
   m_chooser.AddOption(kAutoNameCustom, kAutoNameCustom);
   frc::SmartDashboard::PutData("Auto Modes", &m_chooser);
+
+  m_Drive = new Drive(); 
 }
 
 /**
@@ -58,7 +60,11 @@ void Robot::AutonomousPeriodic() {
 
 void Robot::TeleopInit() {}
 
-void Robot::TeleopPeriodic() {}
+void Robot::TeleopPeriodic()
+{
+  GetXbox();
+  m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
+}
 
 void Robot::DisabledInit() {}
 
@@ -92,6 +98,8 @@ void Robot::GetXbox()
     xboxRX = 0;
   }
 }
+
+
 
 
 #ifndef RUNNING_FRC_TESTS
