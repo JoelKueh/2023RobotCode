@@ -7,8 +7,10 @@
 #include <string>
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
-#include "WiringDiagram.h"
 #include <frc/XboxController.h>
+
+#include "Drive.h"
+#include "WiringDiagram.h"
 
 class Robot : public frc::TimedRobot {
  public:
