@@ -5,9 +5,10 @@
 #pragma once
 
 #include <string>
-
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
+#include "WiringDiagram.h"
+#include <frc/XboxController.h>
 
 class Robot : public frc::TimedRobot {
  public:
@@ -29,4 +30,13 @@ class Robot : public frc::TimedRobot {
   const std::string kAutoNameDefault = "Default";
   const std::string kAutoNameCustom = "My Auto";
   std::string m_autoSelected;
+
+
+  frc::XboxController Xbox { WiringDiagram::xboxPort };
+
+  double xboxLX = 0;
+  double xboxLY = 0;
+  double xboxRX = 0;
+  
+  void GetXbox();
 };

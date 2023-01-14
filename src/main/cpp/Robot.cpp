@@ -72,8 +72,31 @@ void Robot::SimulationInit() {}
 
 void Robot::SimulationPeriodic() {}
 
+void Robot::GetXbox()
+{
+  xboxLX = Xbox.GetLeftX();
+  if(xboxLX < .2 && xboxLX > -.2)
+  {
+    xboxLX = 0;
+  }
+
+  xboxLY = Xbox.GetLeftY();
+  if(xboxLY < .2 && xboxLY > -.2)
+  {
+    xboxLY = 0;
+  }
+
+  xboxRX = Xbox.GetRightX();
+  if(xboxRX < .2 && xboxRX > -.2)
+  {
+    xboxRX = 0;
+  }
+}
+
+
 #ifndef RUNNING_FRC_TESTS
-int main() {
+int main()
+{
   return frc::StartRobot<Robot>();
 }
 #endif
