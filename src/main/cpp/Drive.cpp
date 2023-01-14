@@ -4,4 +4,12 @@
 
 #include "Drive.h"
 
-Drive::Drive() = default;
+Drive::Drive()
+{
+    myMecanumDrive = new frc::MecanumDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
+}
+
+void Drive::MecanumDrive(double drivePower, double strafePower, double turnPower)
+{
+    myMecanumDrive->DriveCartesian(drivePower, strafePower, turnPower);
+}
