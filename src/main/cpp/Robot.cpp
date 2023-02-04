@@ -10,7 +10,10 @@
 
 void Robot::RobotInit() 
 {
-  m_Drive = new Drive(); 
+  m_Drive = new Drive();
+  m_Arm = Arm();
+
+  m_Arm.Closed();
 }
 
 /**
@@ -36,7 +39,7 @@ void Robot::RobotPeriodic() {}
  */
 void Robot::AutonomousInit() 
 {
-  
+  m_Arm.Closed();
 }
 
 void Robot::AutonomousPeriodic() 
@@ -44,12 +47,20 @@ void Robot::AutonomousPeriodic()
   
 }
 
-void Robot::TeleopInit() {}
+void Robot::TeleopInit() 
+{
+  m_Arm.Open();
+}
 
 void Robot::TeleopPeriodic()
 {
   GetXbox();
+  GetButtonBoard();
   m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
+  if(xboxRightBumper)
+  {
+    m_Arm.Toggle();
+  }
 }
 
 void Robot::DisabledInit() {}
