@@ -83,9 +83,18 @@ void Robot::GetXbox()
   {
     xboxRX = 0;
   }
+  xboxRightBumper = Xbox.GetRightBumperPressed();
 }
 
-
+void Robot::GetButtonBoard()
+{
+  button1 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button1ID);
+  button2 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button2ID);
+  button3 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button3ID);
+  button4 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button4ID);
+  button5 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button5ID);
+  button6 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button6ID);
+}
 
 
 #ifndef RUNNING_FRC_TESTS
