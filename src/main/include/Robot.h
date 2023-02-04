@@ -8,6 +8,7 @@
 #include <frc/TimedRobot.h>
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/XboxController.h>
+#include <frc/GenericHID.h>
 
 #include "Drive.h"
 #include "WiringDiagram.h"
@@ -35,6 +36,16 @@ class Robot : public frc::TimedRobot {
   double xboxLX = 0;
   double xboxLY = 0;
   double xboxRX = 0;
-  
+  bool xboxRightBumper = false;
+
+  frc::GenericHID ButtonBoard { WiringDiagram::buttonBoardPort };
+  bool button1 = false;
+  bool button2 = false;
+  bool button3 = false;
+  bool button4 = false;
+  bool button5 = false;
+  bool button6 = false;
+
   void GetXbox();
+  void GetButtonBoard();
 };
