@@ -11,6 +11,7 @@
 #include <frc/GenericHID.h>
 
 #include "Drive.h"
+#include "Arm.h"
 #include "WiringDiagram.h"
 
 class Robot : public frc::TimedRobot {
@@ -31,6 +32,7 @@ class Robot : public frc::TimedRobot {
  private:
   
   Drive *m_Drive;
+  Arm m_Arm;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
   double xboxLX = 0;
