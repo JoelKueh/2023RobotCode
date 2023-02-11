@@ -8,6 +8,7 @@ namespace WiringDiagram {
   const int frontRightID = 2;
   const int backLeftID = 3;
   const int backRightID = 4;
+  const int armMotorID = 5;
   const int button1ID = 1;
   const int button2ID = 2;
   const int button3ID = 3;
