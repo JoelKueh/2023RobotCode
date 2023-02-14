@@ -21,4 +21,4 @@ Arm::Arm() = default;
         ClawPiston.Set(frc::DoubleSolenoid::kReverse);
     }
 
-    void SetPosition(double position);
+    void SetArmPosition(double position);
