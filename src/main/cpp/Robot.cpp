@@ -65,22 +65,22 @@ void Robot::TeleopPeriodic()
 
   if(button1)
   {
-    m_Arm->SetPosition(0);
+    m_Arm->ArmPosition(0);
   }
 
   if(button2)
   {
-    m_Arm->SetPosition(1);
+    m_Arm->ArmPosition(1);
   }
 
   if(button3)
   {
-    m_Arm->SetPosition(2);
+    m_Arm->ArmPosition(2);
   }
 
   if(button4)
   {
-    m_Arm->SetPosition(3);
+    m_Arm->ArmPosition(3);
   }
 }
 
