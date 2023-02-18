@@ -48,6 +48,7 @@ class Robot : public frc::TimedRobot {
   bool button4 = false;
   bool button5 = false;
   bool button6 = false;
+  double joyY = 0.0;
 
   frc::Compressor Compressor { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH };
 

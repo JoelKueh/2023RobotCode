@@ -60,33 +60,30 @@ void Robot::TeleopPeriodic()
   frc::SmartDashboard::PutBoolean("Compressor", Compressor.IsEnabled());
   GetXbox();
   GetButtonBoard();
-  m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
+  m_Drive->MecanumDrive(xboxLY, xboxLX, -xboxRX);
 
   if(xboxRightBumper)
   {
     m_Arm->Toggle();
   }
 
-  if(button1)
-  {
-    m_Arm->ArmPosition(0);
-  }
-
-  if(button2)
-  {
-    m_Arm->ArmPosition(1);
-  }
-
-  if(button3)
-  {
-    m_Arm->ArmPosition(2);
-  }
-
-  if(button4)
-  {
-    m_Arm->ArmPosition(3);
-    m_Arm->Toggle();
-  }
+  // if(button1)
+  // {
+  //   m_Arm->ArmPosition(0);
+  // }
+  // else if(button2)
+  // {
+  //   m_Arm->ArmPosition(1);
+  // }
+  // else if(button3)
+  // {
+  //   m_Arm->ArmPosition(2);
+  // }
+  // else if(button4)
+  // {
+  //   m_Arm->ArmPosition(3);
+  // }
+  m_Arm->ArmManual(joyY);
 }
 
 void Robot::DisabledInit() {}
@@ -131,6 +128,7 @@ void Robot::GetButtonBoard()
   button4 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button4ID);
   button5 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button5ID);
   button6 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button6ID);
+  joyY = ButtonBoard.GetRawAxis(WiringDiagram::joyYID);
 }
 
 

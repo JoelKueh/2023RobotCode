@@ -6,6 +6,8 @@
 
 Arm::Arm()
 {
+    armMotor.SetInverted(true);
+
     armPID.SetP(kP);
     armPID.SetI(kI);
     armPID.SetD(kD);
@@ -61,4 +63,9 @@ bool Arm::ZeroArm()
         armMotor.Set(0);
         return true;
     }
+}
+
+void Arm::ArmManual(double speed)
+{
+    armMotor.Set(speed/4);
 }
