@@ -6,6 +6,9 @@
 
 Arm::Arm()
 {
+    armMotor.SetInverted(true);
+    armMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
+
     armPID.SetP(kP);
     armPID.SetI(kI);
     armPID.SetD(kD);
@@ -59,6 +62,12 @@ bool Arm::ZeroArm()
     else
     {
         armMotor.Set(0);
+        armEncoder.SetPosition(0);
         return true;
     }
+}
+
+void Arm::ArmManual(double speed)
+{
+    armMotor.Set(speed/4);
 }

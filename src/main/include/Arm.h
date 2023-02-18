@@ -18,6 +18,7 @@ class Arm {
   void Open();
   void ArmPosition(double position);
   bool ZeroArm();
+  void ArmManual(double speed);
 
   rev::CANSparkMax armMotor{WiringDiagram::armMotorID, rev::CANSparkMax::MotorType::kBrushless};
   rev::SparkMaxPIDController armPID = armMotor.GetPIDController();

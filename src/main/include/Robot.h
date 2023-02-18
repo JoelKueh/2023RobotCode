@@ -31,9 +31,10 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
  private:
-  
   Drive *m_Drive;
   Arm *m_Arm;
+
+  bool resetdone = false;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
   double xboxLX = 0;
@@ -48,6 +49,7 @@ class Robot : public frc::TimedRobot {
   bool button4 = false;
   bool button5 = false;
   bool button6 = false;
+  double joyY = 0.0;
 
   frc::Compressor Compressor { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH };
 

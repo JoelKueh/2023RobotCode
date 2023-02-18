@@ -13,7 +13,6 @@ void Robot::RobotInit()
   m_Drive = new Drive();
   m_Arm = new Arm();
 
-  m_Arm->Closed();
   Compressor.EnableDigital();
 }
 
@@ -38,10 +37,9 @@ void Robot::RobotPeriodic() {}
  * if-else structure below with additional strings. If using the SendableChooser
  * make sure to add them to the chooser code above as well.
  */
-void Robot::AutonomousInit() 
+void Robot::AutonomousInit()
 {
-  m_Arm->Closed();
-  m_Arm->Closed();
+  
 }
 
 void Robot::AutonomousPeriodic() 
@@ -51,42 +49,45 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit() 
 {
-  m_Arm->Open();
-  m_Arm->Open();
+  
 }
 
 void Robot::TeleopPeriodic()
 {
+  if(!resetdone)
+  {
+    resetdone = m_Arm->ZeroArm();
+    return;
+  }
+
   frc::SmartDashboard::PutBoolean("Compressor", Compressor.IsEnabled());
   GetXbox();
   GetButtonBoard();
-  m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
+  m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
 
   if(xboxRightBumper)
   {
     m_Arm->Toggle();
   }
 
-  if(button1)
-  {
-    m_Arm->ArmPosition(0);
-  }
-
-  if(button2)
-  {
-    m_Arm->ArmPosition(1);
-  }
-
-  if(button3)
-  {
-    m_Arm->ArmPosition(2);
-  }
-
-  if(button4)
-  {
-    m_Arm->ArmPosition(3);
-    m_Arm->Toggle();
-  }
+  // if(button1)
+  // {
+  //   m_Arm->ArmPosition(0);
+  // }
+  // else if(button2)
+  // {
+  //   m_Arm->ArmPosition(1);
+  // }
+  // else if(button3)
+  // {
+  //   m_Arm->ArmPosition(2);
+  // }
+  // else if(button4)
+  // {
+  //   m_Arm->ArmPosition(3);
+  // }
+  
+  m_Arm->ArmManual(joyY);
 }
 
 void Robot::DisabledInit() {}
@@ -131,6 +132,7 @@ void Robot::GetButtonBoard()
   button4 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button4ID);
   button5 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button5ID);
   button6 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button6ID);
+  joyY = ButtonBoard.GetRawAxis(WiringDiagram::joyYID);
 }
 
 
