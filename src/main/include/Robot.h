@@ -32,7 +32,7 @@ class Robot : public frc::TimedRobot {
  private:
   
   Drive *m_Drive;
-  Arm m_Arm;
+  Arm *m_Arm;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
   double xboxLX = 0;
