@@ -14,5 +14,17 @@ Drive::Drive()
 
 void Drive::MecanumDrive(double drivePower, double strafePower, double turnPower)
 {
-    myMecanumDrive->DriveCartesian(drivePower, strafePower, turnPower);
+    double driveOut = drivePower*drivePower;
+    driveOut = driveOut < 0.2 ? 0.2 : driveOut;
+    driveOut = drivePower < 0.0 ? -driveOut : driveOut;
+
+    double strafeOut = strafePower*strafePower;
+    strafeOut = strafeOut < 0.2 ? 0.2 : strafeOut;
+    strafeOut = strafePower < 0.0 ? -strafeOut : strafeOut;
+
+    double turnOut = turnPower*turnPower;
+    turnOut = turnOut < 0.2 ? 0.2 : turnOut;
+    turnOut = turnPower < 0.0 ? -turnOut : turnOut;
+
+    myMecanumDrive->DriveCartesian(driveOut, strafeOut, turnOut);
 }
