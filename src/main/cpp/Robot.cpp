@@ -41,6 +41,7 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit() 
 {
   m_Arm->Closed();
+  m_Arm->Closed();
 }
 
 void Robot::AutonomousPeriodic() 
@@ -51,6 +52,7 @@ void Robot::AutonomousPeriodic()
 void Robot::TeleopInit() 
 {
   m_Arm->Open();
+  m_Arm->Open();
 }
 
 void Robot::TeleopPeriodic()
@@ -59,8 +61,30 @@ void Robot::TeleopPeriodic()
   GetXbox();
   GetButtonBoard();
   m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
+
   if(xboxRightBumper)
   {
+    m_Arm->Toggle();
+  }
+
+  if(button1)
+  {
+    m_Arm->ArmPosition(0);
+  }
+
+  if(button2)
+  {
+    m_Arm->ArmPosition(1);
+  }
+
+  if(button3)
+  {
+    m_Arm->ArmPosition(2);
+  }
+
+  if(button4)
+  {
+    m_Arm->ArmPosition(3);
     m_Arm->Toggle();
   }
 }
