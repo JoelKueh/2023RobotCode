@@ -7,6 +7,7 @@
 Arm::Arm()
 {
     armMotor.SetInverted(true);
+    armMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
     armPID.SetP(kP);
     armPID.SetI(kI);
@@ -61,6 +62,7 @@ bool Arm::ZeroArm()
     else
     {
         armMotor.Set(0);
+        armEncoder.SetPosition(0);
         return true;
     }
 }

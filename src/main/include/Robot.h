@@ -31,9 +31,10 @@ class Robot : public frc::TimedRobot {
   void SimulationPeriodic() override;
 
  private:
-  
   Drive *m_Drive;
   Arm *m_Arm;
+
+  bool resetdone = false;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
   double xboxLX = 0;

@@ -13,7 +13,6 @@ void Robot::RobotInit()
   m_Drive = new Drive();
   m_Arm = new Arm();
 
-  m_Arm->Closed();
   Compressor.EnableDigital();
 }
 
@@ -38,10 +37,9 @@ void Robot::RobotPeriodic() {}
  * if-else structure below with additional strings. If using the SendableChooser
  * make sure to add them to the chooser code above as well.
  */
-void Robot::AutonomousInit() 
+void Robot::AutonomousInit()
 {
-  m_Arm->Closed();
-  m_Arm->Closed();
+  
 }
 
 void Robot::AutonomousPeriodic() 
@@ -51,16 +49,21 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit() 
 {
-  m_Arm->Open();
-  m_Arm->Open();
+  
 }
 
 void Robot::TeleopPeriodic()
 {
+  if(!resetdone)
+  {
+    resetdone = m_Arm->ZeroArm();
+    return;
+  }
+
   frc::SmartDashboard::PutBoolean("Compressor", Compressor.IsEnabled());
   GetXbox();
   GetButtonBoard();
-  m_Drive->MecanumDrive(xboxLY, xboxLX, -xboxRX);
+  m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
 
   if(xboxRightBumper)
   {
@@ -83,6 +86,7 @@ void Robot::TeleopPeriodic()
   // {
   //   m_Arm->ArmPosition(3);
   // }
+  
   m_Arm->ArmManual(joyY);
 }
 
