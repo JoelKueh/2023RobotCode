@@ -26,7 +26,7 @@ class Arm {
   frc::DigitalInput armLimit{WiringDiagram::armLimitID};
 
   double kP = 0.0, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.0, kMinOutput = 0.0;
-  double pos1 = 0.0, pos2 = 0.0, pos3 = 0.0, pos4 = 0.0;
+  double inrobot = 0.5, goal2 = 18.316, substation = 19.037, goal3 = 21.72;
 
  private:
   frc::DoubleSolenoid ClawPiston { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH, WiringDiagram::solenoidForwardID, WiringDiagram::solenoidReverseID};

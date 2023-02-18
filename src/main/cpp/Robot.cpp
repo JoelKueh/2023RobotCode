@@ -39,7 +39,7 @@ void Robot::RobotPeriodic() {}
  */
 void Robot::AutonomousInit()
 {
-  
+  m_Arm->Closed();
 }
 
 void Robot::AutonomousPeriodic() 
@@ -49,7 +49,7 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit() 
 {
-  
+  m_Arm->Closed();
 }
 
 void Robot::TeleopPeriodic()
@@ -60,7 +60,7 @@ void Robot::TeleopPeriodic()
     return;
   }
 
-  frc::SmartDashboard::PutBoolean("Compressor", Compressor.IsEnabled());
+  frc::SmartDashboard::PutBoolean("Compressor", xboxRightBumper);
   GetXbox();
   GetButtonBoard();
   m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
@@ -70,22 +70,22 @@ void Robot::TeleopPeriodic()
     m_Arm->Toggle();
   }
 
-  // if(button1)
-  // {
-  //   m_Arm->ArmPosition(0);
-  // }
-  // else if(button2)
-  // {
-  //   m_Arm->ArmPosition(1);
-  // }
-  // else if(button3)
-  // {
-  //   m_Arm->ArmPosition(2);
-  // }
-  // else if(button4)
-  // {
-  //   m_Arm->ArmPosition(3);
-  // }
+  if(button1)
+  {
+    m_Arm->ArmPosition(1);
+  }
+  else if(button2)
+  {
+    m_Arm->ArmPosition(2);
+  }
+  else if(button3)
+  {
+    m_Arm->ArmPosition(3);
+  }
+  else if(button4)
+  {
+    m_Arm->ArmPosition(4);
+  }
   
   m_Arm->ArmManual(joyY);
 }

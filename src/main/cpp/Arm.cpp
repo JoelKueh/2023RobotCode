@@ -36,19 +36,19 @@ void Arm::ArmPosition(double position)
 {
     if(position == 1)
     {
-        armPID.SetReference(pos1, rev::CANSparkMax::ControlType::kPosition);
+        armPID.SetReference(inrobot, rev::CANSparkMax::ControlType::kPosition);
     }
     else if(position == 2)
     {
-        armPID.SetReference(pos2, rev::CANSparkMax::ControlType::kPosition);
+        armPID.SetReference(goal2, rev::CANSparkMax::ControlType::kPosition);
     }
     else if(position == 3)
     {
-        armPID.SetReference(pos3, rev::CANSparkMax::ControlType::kPosition);
+        armPID.SetReference(substation, rev::CANSparkMax::ControlType::kPosition);
     }
     else if(position == 4)
     {
-        armPID.SetReference(pos4, rev::CANSparkMax::ControlType::kPosition);
+        armPID.SetReference(goal3, rev::CANSparkMax::ControlType::kPosition);
     }
 }
 
@@ -56,7 +56,7 @@ bool Arm::ZeroArm()
 {
     if(armLimit.Get())
     {
-        armMotor.Set(-0.1);
+        armMotor.Set(0.05);
         return false;
     }
     else
