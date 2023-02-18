@@ -28,5 +28,5 @@ class Arm {
   double pos1 = 0.0, pos2 = 0.0, pos3 = 0.0, pos4 = 0.0;
 
  private:
-  frc::DoubleSolenoid ClawPiston {frc::PneumaticsModuleType::REVPH, WiringDiagram::solenoidForwardID, WiringDiagram::solenoidReverseID};
+  frc::DoubleSolenoid ClawPiston { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH, WiringDiagram::solenoidForwardID, WiringDiagram::solenoidReverseID};
 };
