@@ -6,6 +6,9 @@
 
 Drive::Drive()
 {
+    frontLeftMotor.SetInverted(true);
+    backLeftMotor.SetInverted(true);
+
     myMecanumDrive = new frc::MecanumDrive(frontLeftMotor, backLeftMotor, frontRightMotor, backRightMotor);
 }
 

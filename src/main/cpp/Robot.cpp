@@ -11,9 +11,10 @@
 void Robot::RobotInit() 
 {
   m_Drive = new Drive();
-  m_Arm = Arm();
+  m_Arm = new Arm();
 
-  m_Arm.Closed();
+  m_Arm->Closed();
+  Compressor.EnableDigital();
 }
 
 /**
@@ -39,7 +40,7 @@ void Robot::RobotPeriodic() {}
  */
 void Robot::AutonomousInit() 
 {
-  m_Arm.Closed();
+  m_Arm->Closed();
 }
 
 void Robot::AutonomousPeriodic() 
@@ -49,17 +50,18 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit() 
 {
-  m_Arm.Open();
+  m_Arm->Open();
 }
 
 void Robot::TeleopPeriodic()
 {
+  frc::SmartDashboard::PutBoolean("Compressor", Compressor.IsEnabled());
   GetXbox();
   GetButtonBoard();
   m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
   if(xboxRightBumper)
   {
-    m_Arm.Toggle();
+    m_Arm->Toggle();
   }
 }
 

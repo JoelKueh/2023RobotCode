@@ -9,6 +9,7 @@
 #include <frc/smartdashboard/SendableChooser.h>
 #include <frc/XboxController.h>
 #include <frc/GenericHID.h>
+#include <frc/Compressor.h>
 
 #include "Drive.h"
 #include "Arm.h"
@@ -32,7 +33,7 @@ class Robot : public frc::TimedRobot {
  private:
   
   Drive *m_Drive;
-  Arm m_Arm;
+  Arm *m_Arm;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
   double xboxLX = 0;
@@ -47,6 +48,8 @@ class Robot : public frc::TimedRobot {
   bool button4 = false;
   bool button5 = false;
   bool button6 = false;
+
+  frc::Compressor Compressor { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH };
 
   void GetXbox();
   void GetButtonBoard();

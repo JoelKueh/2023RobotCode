@@ -16,4 +16,5 @@ namespace WiringDiagram {
   const int button6ID = 6;
   const int solenoidForwardID = 0;
   const int solenoidReverseID = 1;
+  const int pneumaticsHubID = 6;
 };
