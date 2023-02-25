@@ -15,6 +15,11 @@ Arm::Arm()
     armPID.SetIZone(kIz);
     armPID.SetFF(kFF);
     armPID.SetOutputRange(kMinOutput, kMaxOutput);
+
+    TP = new frc::TrapezoidProfile<units::radians>(
+        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 2_rad_per_s / 1_s},
+        frc::TrapezoidProfile<units::radians>::State{(units::radian_t)inrobot, 0.0_rad_per_s},
+        frc::TrapezoidProfile<units::radians>::State{0.0_rad, 0.0_rad_per_s});
 }
     
 void Arm::Toggle()
@@ -34,6 +39,8 @@ void Arm::Open()
 
 void Arm::ArmPosition(double position)
 {
+    delete TP;
+    frc::
     if(position == 1)
     {
         armPID.SetReference(inrobot, rev::CANSparkMax::ControlType::kPosition);
@@ -50,6 +57,19 @@ void Arm::ArmPosition(double position)
     {
         armPID.SetReference(goal3, rev::CANSparkMax::ControlType::kPosition);
     }
+
+    TP = new 
+}
+
+void Arm::ArmUpdatePID()
+{
+    double feedForward = armFF.Calculate(setpoint - angle_offset,
+        )
+}
+
+void Arm::ArmSetSetpoint()
+{
+
 }
 
 bool Arm::ZeroArm()
