@@ -6,16 +6,19 @@
 
 #include <frc/DoubleSolenoid.h>
 #include <frc/DigitalInput.h>
+#include <frc/Timer.h>
+#include <frc/smartdashboard/SmartDashboard.h>
 #include <rev/CANSparkMax.h>
 #include <frc/controller/ArmFeedforward.h>
 #include <units/voltage.h>
 #include <units/angle.h>
 #include <units/time.h>
-#include <cmath>
 #include <frc/trajectory/TrapezoidProfile.h>
 #include "WiringDiagram.h"
 
-#define ROT_TO_RAD(X) X * M_PI * 2 / 88;
+#define ROT_TO_RAD(X) X * 3.141593 * 2 / 88
+#define RAD_TO_ROT(X) X * 88 / 3.141593 / 2
+#define M_PI 3.141593
 
 class Arm {
  public:
@@ -24,7 +27,7 @@ class Arm {
   void Toggle();
   void Closed();
   void Open();
-  void ArmPosition(double position);
+  void SetSetpoint(double position);
   bool ZeroArm();
   void ArmManual(double speed);
   void ArmUpdatePID();
@@ -43,12 +46,13 @@ class Arm {
   frc::DigitalInput armLimit{WiringDiagram::armLimitID};
   frc::ArmFeedforward armFF{kS, kG, 1.71_V * 1_s / 1_rad, 0.06_V * 1_s * 1_s / 1_rad};
   frc::TrapezoidProfile<units::radians> *TP;
+  frc::Timer timer;
 
-  double kP = 0.0, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.0, kMinOutput = 0.0;
-  double inrobot = ROT_TO_RAD(0.5);
-  double goal2 = ROT_TO_RAD(18.316);
-  double substation = ROT_TO_RAD(19.037);
-  double goal3 = ROT_TO_RAD(21.72);
+  double kP = 0.0, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.1, kMinOutput = -0.1;
+  double inrobot = ROT_TO_RAD(0.5),
+    goal2 = ROT_TO_RAD(18.316),
+    substation = ROT_TO_RAD(19.037),
+    goal3 = ROT_TO_RAD(21.72);
 
  private:
   frc::DoubleSolenoid ClawPiston { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH, WiringDiagram::solenoidForwardID, WiringDiagram::solenoidReverseID};

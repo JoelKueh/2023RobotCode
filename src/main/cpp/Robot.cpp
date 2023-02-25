@@ -60,34 +60,43 @@ void Robot::TeleopPeriodic()
     return;
   }
 
-  frc::SmartDashboard::PutBoolean("Compressor", xboxRightBumper);
   GetXbox();
   GetButtonBoard();
   m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
 
   if(xboxRightBumper)
   {
-    m_Arm->Toggle();
+    // m_Arm->Toggle();
   }
+
+  frc::SmartDashboard::PutBoolean("B1", button1);
+  frc::SmartDashboard::PutBoolean("B2", button2);
+  frc::SmartDashboard::PutBoolean("B3", button3);
+  frc::SmartDashboard::PutBoolean("B4", button4);
 
   if(button1)
   {
-    m_Arm->ArmPosition(1);
+    m_Arm->SetSetpoint(1);
   }
   else if(button2)
   {
-    m_Arm->ArmPosition(2);
+    m_Arm->SetSetpoint(2);
   }
   else if(button3)
   {
-    m_Arm->ArmPosition(3);
+    m_Arm->SetSetpoint(3);
   }
   else if(button4)
   {
-    m_Arm->ArmPosition(4);
+    m_Arm->SetSetpoint(4);
   }
+  frc::SmartDashboard::PutBoolean("Compressor", xboxRightBumper);
+  m_Arm->ArmUpdatePID();
   
-  m_Arm->ArmManual(joyY);
+  // Arm can only be run in PID mode or Joystick mode at one time
+  // This needs to be shoved in some switched if statment if manual control
+  // is to be retained.
+  // m_Arm->ArmManual(joyY);
 }
 
 void Robot::DisabledInit() {}
