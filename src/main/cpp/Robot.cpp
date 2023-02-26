@@ -66,7 +66,7 @@ void Robot::TeleopPeriodic()
 
   if(xboxRightBumper)
   {
-    // m_Arm->Toggle();
+    m_Arm->Toggle();
   }
 
   frc::SmartDashboard::PutBoolean("B1", button1);
@@ -102,7 +102,6 @@ void Robot::TeleopPeriodic()
     {
       m_Arm->SetSetpoint(4);
     }
-    frc::SmartDashboard::PutBoolean("Compressor", xboxRightBumper);
     m_Arm->ArmUpdatePID();
   }
 }
