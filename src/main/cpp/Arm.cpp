@@ -92,11 +92,6 @@ void Arm::ArmUpdatePID()
         0, feedForward.value());
 }
 
-void Arm::ArmSetSetpoint()
-{
-
-}
-
 bool Arm::ZeroArm()
 {
     if(armLimit.Get())

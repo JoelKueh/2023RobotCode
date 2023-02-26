@@ -73,30 +73,38 @@ void Robot::TeleopPeriodic()
   frc::SmartDashboard::PutBoolean("B2", button2);
   frc::SmartDashboard::PutBoolean("B3", button3);
   frc::SmartDashboard::PutBoolean("B4", button4);
+  frc::SmartDashboard::PutBoolean("Manual Control", manualcontrol);
 
-  if(button1)
+  if(button5 && button6)
   {
-    m_Arm->SetSetpoint(1);
+    manualcontrol = !manualcontrol;
   }
-  else if(button2)
+
+  if(manualcontrol)
   {
-    m_Arm->SetSetpoint(2);
+    m_Arm->ArmManual(joyY);
   }
-  else if(button3)
+  else
   {
-    m_Arm->SetSetpoint(3);
+    if(button1)
+    {
+      m_Arm->SetSetpoint(1);
+    }
+    else if(button2)
+    {
+      m_Arm->SetSetpoint(2);
+    }
+    else if(button3)
+    {
+      m_Arm->SetSetpoint(3);
+    }
+    else if(button4)
+    {
+      m_Arm->SetSetpoint(4);
+    }
+    frc::SmartDashboard::PutBoolean("Compressor", xboxRightBumper);
+    m_Arm->ArmUpdatePID();
   }
-  else if(button4)
-  {
-    m_Arm->SetSetpoint(4);
-  }
-  frc::SmartDashboard::PutBoolean("Compressor", xboxRightBumper);
-  m_Arm->ArmUpdatePID();
-  
-  // Arm can only be run in PID mode or Joystick mode at one time
-  // This needs to be shoved in some switched if statment if manual control
-  // is to be retained.
-  // m_Arm->ArmManual(joyY);
 }
 
 void Robot::DisabledInit() {}
@@ -139,8 +147,8 @@ void Robot::GetButtonBoard()
   button2 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button2ID);
   button3 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button3ID);
   button4 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button4ID);
-  button5 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button5ID);
-  button6 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button6ID);
+  button5 = ButtonBoard.GetRawButton(WiringDiagram::button5ID);
+  button6 = ButtonBoard.GetRawButton(WiringDiagram::button6ID);
   joyY = ButtonBoard.GetRawAxis(WiringDiagram::joyYID);
 }
 

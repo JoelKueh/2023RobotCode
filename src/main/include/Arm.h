@@ -31,7 +31,6 @@ class Arm {
   bool ZeroArm();
   void ArmManual(double speed);
   void ArmUpdatePID();
-  void ArmSetSetpoint();
 
   // The setpoint measured from the vertical.
   units::radian_t angle_offset {M_PI / 2};
