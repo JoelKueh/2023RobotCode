@@ -35,6 +35,7 @@ class Robot : public frc::TimedRobot {
   Arm *m_Arm;
 
   bool resetdone = false;
+  bool manualcontrol = false;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
   double xboxLX = 0;
