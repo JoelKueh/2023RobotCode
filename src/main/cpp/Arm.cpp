@@ -9,8 +9,8 @@ Arm::Arm()
     armMotor.SetInverted(false);
     armMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
 
-    armEncoder.SetPositionConversionFactor(ROT_TO_RAD(1));
-    armEncoder.SetVelocityConversionFactor(ROT_TO_RAD(1));
+    armEncoder.SetPositionConversionFactor(ROT_TO_RAD(1.0));
+    armEncoder.SetVelocityConversionFactor(ROT_TO_RAD(1.0));
 
     timer.Start();
 
@@ -86,6 +86,7 @@ void Arm::ArmUpdatePID()
     auto feedForward = armFF.Calculate(processVar.position - angle_offset, processVar.velocity);
 
     frc::SmartDashboard::PutNumber("Process Variable", processVar.position());
+    frc::SmartDashboard::PutNumber("Position", armEncoder.GetPosition());
     frc::SmartDashboard::PutNumber("Voltage Out", feedForward.value());
 
     armPID.SetReference(RAD_TO_ROT(processVar.position.value()), rev::CANSparkMax::ControlType::kPosition,

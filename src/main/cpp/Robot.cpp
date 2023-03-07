@@ -50,6 +50,7 @@ void Robot::AutonomousPeriodic()
 void Robot::TeleopInit() 
 {
   m_Arm->Closed();
+  resetdone = false;
 }
 
 void Robot::TeleopPeriodic()
@@ -57,12 +58,14 @@ void Robot::TeleopPeriodic()
   if(!resetdone)
   {
     resetdone = m_Arm->ZeroArm();
+    m_Drive->MecanumDrive(0, 0, 0);
     return;
   }
 
   GetXbox();
   GetButtonBoard();
-  m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
+  // m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
+  m_Drive->MecanumDrive(0, 0, 0);
 
   if(xboxRightBumper)
   {
