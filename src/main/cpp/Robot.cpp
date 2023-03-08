@@ -45,9 +45,16 @@ void Robot::TeleopPeriodic()
 
   GetXbox();
   GetButtonBoard();
-  // m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
-  m_Drive->MecanumDrive(0, 0, 0);
 
+  if(xboxRightTrigger)
+  {
+    m_Drive->MecanumDrive(xboxLY/4, -xboxLX/4, -xboxRX/4);
+  }
+  else
+  {
+    m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
+  }
+  
   if(xboxRightBumper)
   {
     m_Arm->Toggle();
@@ -122,6 +129,14 @@ void Robot::GetXbox()
     xboxRX = 0;
   }
   xboxRightBumper = Xbox.GetRightBumperPressed();
+  if(Xbox.GetRightTriggerAxis() > .5)
+  {
+    xboxRightTrigger = true;
+  }
+  else
+  {
+    xboxRightTrigger = false;
+  }
 }
 
 void Robot::GetButtonBoard()

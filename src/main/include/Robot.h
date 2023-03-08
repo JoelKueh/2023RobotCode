@@ -42,6 +42,7 @@ class Robot : public frc::TimedRobot {
   double xboxLY = 0;
   double xboxRX = 0;
   bool xboxRightBumper = false;
+  bool xboxRightTrigger = false;
 
   frc::GenericHID ButtonBoard { WiringDiagram::buttonBoardPort };
   bool button1 = false;

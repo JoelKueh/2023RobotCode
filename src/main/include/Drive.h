@@ -6,6 +6,7 @@
 
 #include <frc/Drive/MecanumDrive.h>
 #include <rev/CANSparkMax.h>
+#include <frc/ADIS16470_IMU.h>
 #include "WiringDiagram.h"
 
 class Drive {
@@ -18,4 +19,6 @@ class Drive {
   rev::CANSparkMax backLeftMotor {WiringDiagram::backLeftID, rev::CANSparkMax::MotorType::kBrushless};
   rev::CANSparkMax backRightMotor {WiringDiagram::backRightID, rev::CANSparkMax::MotorType::kBrushless};
   frc::MecanumDrive *myMecanumDrive;
+
+  frc::ADIS16470_IMU gyro;
 };
