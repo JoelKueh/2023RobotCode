@@ -18,7 +18,6 @@
 
 #define ROT_TO_RAD(X) X * 3.141593 * 2.0 / 88.0
 #define RAD_TO_ROT(X) X * 88.0 / 3.141593 / 2.0
-#define M_PI 3.141593
 
 class Arm {
  public:
@@ -48,7 +47,7 @@ class Arm {
   frc::Timer timer;
 
 
-  double kP = 0.0, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.3, kMinOutput = -0.3;
+  double kP = 0.03, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.25, kMinOutput = -0.25;
   double inrobot = ROT_TO_RAD(0.5),
     goal2 = ROT_TO_RAD(18.316),
     substation = ROT_TO_RAD(19.037),

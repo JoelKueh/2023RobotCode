@@ -8,9 +8,10 @@ Arm::Arm()
 {
     armMotor.SetInverted(false);
     armMotor.SetIdleMode(rev::CANSparkMax::IdleMode::kBrake);
-
-    armEncoder.SetPositionConversionFactor(ROT_TO_RAD(1.0));
-    armEncoder.SetVelocityConversionFactor(ROT_TO_RAD(1.0));
+    armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, true);
+    armMotor.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, RAD_TO_ROT(2));
+    armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, true);
+    armMotor.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, 0);
 
     timer.Start();
 
@@ -22,7 +23,7 @@ Arm::Arm()
     armPID.SetOutputRange(kMinOutput, kMaxOutput);
 
     TP = new frc::TrapezoidProfile<units::radians>(
-        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 2_rad_per_s / 1_s},
+        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 0.6_rad_per_s / 1_s},
         frc::TrapezoidProfile<units::radians>::State{(units::radian_t)inrobot, 0.0_rad_per_s},
         frc::TrapezoidProfile<units::radians>::State{0.0_rad, 0.0_rad_per_s}
     );
@@ -73,9 +74,9 @@ void Arm::SetSetpoint(double position)
     timer.Reset();
     // Make the new profile.
     TP = new frc::TrapezoidProfile<units::radians>(
-        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 2_rad_per_s / 1_s},
+        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 0.6_rad_per_s / 1_s},
         frc::TrapezoidProfile<units::radians>::State{(units::radian_t)setpoint, 0.0_rad_per_s},
-        frc::TrapezoidProfile<units::radians>::State{(units::radian_t)armEncoder.GetPosition(), 0.0_rad_per_s}
+        frc::TrapezoidProfile<units::radians>::State{(units::radian_t)(ROT_TO_RAD(armEncoder.GetPosition())), 0.0_rad_per_s}
     );
 }
 
@@ -86,8 +87,10 @@ void Arm::ArmUpdatePID()
     auto feedForward = armFF.Calculate(processVar.position - angle_offset, processVar.velocity);
 
     frc::SmartDashboard::PutNumber("Process Variable", processVar.position());
-    frc::SmartDashboard::PutNumber("Position", armEncoder.GetPosition());
+    frc::SmartDashboard::PutNumber("Position", ROT_TO_RAD(armEncoder.GetPosition()));
     frc::SmartDashboard::PutNumber("Voltage Out", feedForward.value());
+    frc::SmartDashboard::PutNumber("Error", ROT_TO_RAD(armEncoder.GetPosition())
+        - processVar.position());
 
     armPID.SetReference(RAD_TO_ROT(processVar.position.value()), rev::CANSparkMax::ControlType::kPosition,
         0, feedForward.value());
@@ -95,20 +98,22 @@ void Arm::ArmUpdatePID()
 
 bool Arm::ZeroArm()
 {
+    armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, false);
     if(armLimit.Get())
     {
-        armMotor.Set(-0.05);
+        armMotor.Set(-0.025);
         return false;
     }
     else
     {
         armMotor.Set(0);
         armEncoder.SetPosition(0);
+        armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, true);
         return true;
     }
 }
 
 void Arm::ArmManual(double speed)
 {
-    armMotor.Set(speed/4);
+    armMotor.Set(speed/10);
 }
