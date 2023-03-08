@@ -13,34 +13,13 @@ void Robot::RobotInit()
   m_Drive = new Drive();
   m_Arm = new Arm();
 
-  m_Arm->Closed();
   Compressor.EnableDigital();
 }
 
-/**
- * This function is called every 20 ms, no matter the mode. Use
- * this for items like diagnostics that you want ran during disabled,
- * autonomous, teleoperated and test.
- *
- * <p> This runs after the mode specific periodic functions, but before
- * LiveWindow and SmartDashboard integrated updating.
- */
 void Robot::RobotPeriodic() {}
 
-/**
- * This autonomous (along with the chooser code above) shows how to select
- * between different autonomous modes using the dashboard. The sendable chooser
- * code works with the Java SmartDashboard. If you prefer the LabVIEW Dashboard,
- * remove all of the chooser code and uncomment the GetString line to get the
- * auto name from the text box below the Gyro.
- *
- * You can add additional auto modes by adding additional comparisons to the
- * if-else structure below with additional strings. If using the SendableChooser
- * make sure to add them to the chooser code above as well.
- */
-void Robot::AutonomousInit() 
+void Robot::AutonomousInit()
 {
-  m_Arm->Closed();
   m_Arm->Closed();
 }
 
@@ -51,41 +30,63 @@ void Robot::AutonomousPeriodic()
 
 void Robot::TeleopInit() 
 {
-  m_Arm->Open();
-  m_Arm->Open();
+  m_Arm->Closed();
+  resetdone = false;
 }
 
 void Robot::TeleopPeriodic()
 {
-  frc::SmartDashboard::PutBoolean("Compressor", Compressor.IsEnabled());
+  if(!resetdone)
+  {
+    resetdone = m_Arm->ZeroArm();
+    m_Drive->MecanumDrive(0, 0, 0);
+    return;
+  }
+
   GetXbox();
   GetButtonBoard();
-  m_Drive->MecanumDrive(xboxLY, xboxLX, xboxRX);
+  // m_Drive->MecanumDrive(xboxLY, -xboxLX, -xboxRX);
+  m_Drive->MecanumDrive(0, 0, 0);
 
   if(xboxRightBumper)
   {
     m_Arm->Toggle();
   }
 
-  if(button1)
+  frc::SmartDashboard::PutBoolean("B1", button1);
+  frc::SmartDashboard::PutBoolean("B2", button2);
+  frc::SmartDashboard::PutBoolean("B3", button3);
+  frc::SmartDashboard::PutBoolean("B4", button4);
+  frc::SmartDashboard::PutBoolean("Manual Control", manualcontrol);
+
+  if(button5 && button6)
   {
-    m_Arm->ArmPosition(0);
+    manualcontrol = !manualcontrol;
   }
 
-  if(button2)
+  if(manualcontrol)
   {
-    m_Arm->ArmPosition(1);
+    m_Arm->ArmManual(joyY);
   }
-
-  if(button3)
+  else
   {
-    m_Arm->ArmPosition(2);
-  }
-
-  if(button4)
-  {
-    m_Arm->ArmPosition(3);
-    m_Arm->Toggle();
+    if(button1)
+    {
+      m_Arm->SetSetpoint(1);
+    }
+    else if(button2)
+    {
+      m_Arm->SetSetpoint(2);
+    }
+    else if(button3)
+    {
+      m_Arm->SetSetpoint(3);
+    }
+    else if(button4)
+    {
+      m_Arm->SetSetpoint(4);
+    }
+    m_Arm->ArmUpdatePID();
   }
 }
 
@@ -129,8 +130,9 @@ void Robot::GetButtonBoard()
   button2 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button2ID);
   button3 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button3ID);
   button4 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button4ID);
-  button5 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button5ID);
+  button5 = ButtonBoard.GetRawButton(WiringDiagram::button5ID);
   button6 = ButtonBoard.GetRawButtonPressed(WiringDiagram::button6ID);
+  joyY = ButtonBoard.GetRawAxis(WiringDiagram::joyYID);
 }
 
 
