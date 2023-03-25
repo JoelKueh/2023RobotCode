@@ -208,7 +208,7 @@ void Drive::checkAutoState()
     }
     else if(autostate == 1)
     {
-        if(frontRightEncoder.GetPosition() < -20.3)
+        if(frontRightEncoder.GetPosition() < -20.26)
         {
             autostate = 2;
             runonce = true;
