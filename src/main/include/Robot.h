@@ -34,7 +34,8 @@ class Robot : public frc::TimedRobot {
   Drive *m_Drive;
   Arm *m_Arm;
 
-  bool resetdone = false;
+  bool resetdone = true;
+  bool autoresetdone = false;
   bool manualcontrol = false;
 
   frc::XboxController Xbox { WiringDiagram::xboxPort };
@@ -42,6 +43,7 @@ class Robot : public frc::TimedRobot {
   double xboxLY = 0;
   double xboxRX = 0;
   bool xboxRightBumper = false;
+  bool xboxRightTrigger = false;
 
   frc::GenericHID ButtonBoard { WiringDiagram::buttonBoardPort };
   bool button1 = false;
@@ -50,10 +52,13 @@ class Robot : public frc::TimedRobot {
   bool button4 = false;
   bool button5 = false;
   bool button6 = false;
+  bool selectbutton = false;
+  bool startbutton = false;
   double joyY = 0.0;
 
   frc::Compressor Compressor { WiringDiagram::pneumaticsHubID, frc::PneumaticsModuleType::REVPH };
 
   void GetXbox();
   void GetButtonBoard();
+  void NonRampAuto();
 };

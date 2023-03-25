@@ -11,7 +11,7 @@ Arm::Arm()
     armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, true);
     armMotor.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kForward, RAD_TO_ROT(2));
     armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, true);
-    armMotor.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, 0);
+    armMotor.SetSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, 0.05);
 
     timer.Start();
 
@@ -23,7 +23,7 @@ Arm::Arm()
     armPID.SetOutputRange(kMinOutput, kMaxOutput);
 
     TP = new frc::TrapezoidProfile<units::radians>(
-        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 0.6_rad_per_s / 1_s},
+        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 1_rad_per_s / 1_s},
         frc::TrapezoidProfile<units::radians>::State{(units::radian_t)inrobot, 0.0_rad_per_s},
         frc::TrapezoidProfile<units::radians>::State{0.0_rad, 0.0_rad_per_s}
     );
@@ -44,7 +44,7 @@ void Arm::Open()
     ClawPiston.Set(frc::DoubleSolenoid::kReverse);
 }
 
-void Arm::SetSetpoint(double position)
+void Arm::SetSetpoint(int position)
 {
     // If you don't haave this, you never get rid of the old profile.
     // This is called a memory leak, it slowly eats away at your memory until
@@ -68,13 +68,17 @@ void Arm::SetSetpoint(double position)
     {
         setpoint = units::radian_t(goal3);
     }
+    else if(position == 5)
+    {
+        setpoint = units::radian_t(rampPosition);
+    }
 
     frc::SmartDashboard::PutNumber("Setpoint", setpoint.value());
     // Set the time to zero.
     timer.Reset();
     // Make the new profile.
     TP = new frc::TrapezoidProfile<units::radians>(
-        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 0.6_rad_per_s / 1_s},
+        frc::TrapezoidProfile<units::radians>::Constraints{1_rad_per_s, 1_rad_per_s / 1_s},
         frc::TrapezoidProfile<units::radians>::State{(units::radian_t)setpoint, 0.0_rad_per_s},
         frc::TrapezoidProfile<units::radians>::State{(units::radian_t)(ROT_TO_RAD(armEncoder.GetPosition())), 0.0_rad_per_s}
     );
@@ -101,7 +105,7 @@ bool Arm::ZeroArm()
     armMotor.EnableSoftLimit(rev::CANSparkMax::SoftLimitDirection::kReverse, false);
     if(armLimit.Get())
     {
-        armMotor.Set(-0.025);
+        armMotor.Set(-0.04);
         return false;
     }
     else
