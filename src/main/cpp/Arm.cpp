@@ -84,7 +84,7 @@ void Arm::SetSetpoint(int position)
     );
 }
 
-void Arm::ArmUpdatePID()
+void Arm::ArmUpdatePID(double joystickposition)
 {
     frc::SmartDashboard::PutNumber("Time Since TP Creation", timer.Get().value());
     auto processVar = TP->Calculate(timer.Get());
@@ -96,7 +96,17 @@ void Arm::ArmUpdatePID()
     frc::SmartDashboard::PutNumber("Error", ROT_TO_RAD(armEncoder.GetPosition())
         - processVar.position());
 
-    armPID.SetReference(RAD_TO_ROT(processVar.position.value()), rev::CANSparkMax::ControlType::kPosition,
+
+    if(TP->IsFinished(timer.Get()))
+    {
+        setpoint2 += RAD_TO_ROT(joystickposition * 0.001);
+    }
+    else
+    {
+        setpoint2 = RAD_TO_ROT(processVar.position.value());
+    }
+
+    armPID.SetReference(setpoint2, rev::CANSparkMax::ControlType::kPosition,
         0, feedForward.value());
 }
 

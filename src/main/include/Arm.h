@@ -29,11 +29,12 @@ class Arm {
   void SetSetpoint(int position);
   bool ZeroArm();
   void ArmManual(double speed);
-  void ArmUpdatePID();
+  void ArmUpdatePID(double joystickposition);
 
   // The setpoint measured from the vertical.
   units::radian_t angle_offset {M_PI / 2};
   units::radian_t setpoint {0.0};
+  double setpoint2 = 0.0;
   
   units::volt_t kS {0.0};
   units::volt_t kG {0.67};
@@ -46,8 +47,7 @@ class Arm {
   frc::TrapezoidProfile<units::radians> *TP;
   frc::Timer timer;
 
-
-  double kP = 0.03, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.25, kMinOutput = -0.25;
+  double kP = 0.1, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.25, kMinOutput = -0.25;
   double inrobot = ROT_TO_RAD(6),
     goal2 = ROT_TO_RAD(21),
     substation = ROT_TO_RAD(21.33),
