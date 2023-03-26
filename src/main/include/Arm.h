@@ -48,9 +48,9 @@ class Arm {
 
 
   double kP = 0.03, kI = 0.0, kD = 0.0, kIz = 0.0, kFF = 0.0, kMaxOutput = 0.25, kMinOutput = -0.25;
-  double inrobot = ROT_TO_RAD(6),
+  double inrobot = ROT_TO_RAD(6.5),
     goal2 = ROT_TO_RAD(21),
-    substation = ROT_TO_RAD(21.33),
+    substation = ROT_TO_RAD(21.45),
     goal3 = ROT_TO_RAD(26),
     rampPosition = ROT_TO_RAD(0);
 
