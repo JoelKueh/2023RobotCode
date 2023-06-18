@@ -99,7 +99,7 @@ void Arm::ArmUpdatePID(double joystickposition)
 
     if(TP->IsFinished(timer.Get()))
     {
-        setpoint2 += RAD_TO_ROT(joystickposition * 0.001);
+        setpoint2 += RAD_TO_ROT(joystickposition * 0.005);
     }
     else
     {
