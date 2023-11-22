@@ -21,7 +21,7 @@ void Robot::RobotPeriodic() {}
 void Robot::AutonomousInit()
 {
   m_Arm->Closed();
-  m_Arm->SetSetpoint(1);
+  m_Arm->SetSetpoint(5);
   m_Drive->autoReset();
   m_Drive->autostate = 0;
   m_Drive->armrunonce = true;
@@ -43,7 +43,7 @@ void Robot::AutonomousPeriodic()
 void Robot::TeleopInit() 
 {
   m_Arm->Open();
-  m_Arm->SetSetpoint(1);
+  m_Arm->SetSetpoint(5);
   resetdone = true;
 }
 
@@ -114,7 +114,7 @@ void Robot::TeleopPeriodic()
     {
       m_Arm->SetSetpoint(5);
     }
-    m_Arm->ArmUpdatePID();
+    m_Arm->ArmUpdatePID(joyY);
   }
 }
 
@@ -246,7 +246,7 @@ void Robot::NonRampAuto()
   //   }
   //   m_Drive->MecanumDrive(m_Drive->MDPID(), 0, 0);
   // }
-  m_Arm->ArmUpdatePID();
+  m_Arm->ArmUpdatePID(0.0);
   m_Drive->checkAutoState();
   frc::SmartDashboard::PutNumber("autostate", m_Drive->autostate);
   frc::SmartDashboard::PutBoolean("runonce", m_Drive->runonce);
